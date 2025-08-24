@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useUnicodeNames, CharacterName } from './hooks/useUnicodeNames';
 import { CharacterInput } from './components/CharacterInput';
 import { CharacterOutput } from './components/CharacterOutput';
-import { AdPlaceholder } from './components/AdPlaceholder';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
@@ -32,8 +31,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#4A90E2] to-[#A3CEF1] text-[#1E2A38] p-4 sm:p-8 selection:bg-[#357ABD] selection:text-white">
-      <AdPlaceholder position="left" />
-      <AdPlaceholder position="right" />
 
       <main className="container mx-auto max-w-4xl flex flex-col items-center justify-center min-h-screen py-12">
         <Header />
