@@ -1,0 +1,5 @@
+{
+  "name": "Character to Name",
+  "description": "A real-time tool to convert any character into its official Unicode name. Features a live character count, copy-to-clipboard functionality, and a clean, modern design.",
+  "requestFramePermissions": []
+}
