@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { BitcoinIcon, CopyIcon, CheckIcon, EthereumIcon, SolanaIcon, ChevronDownIcon } from './Icons';
+import { PrivacyPolicy } from './PrivacyPolicy';
 
 // Define a type for the Icon component props
 type IconProps = { className?: string };
@@ -29,6 +30,7 @@ export const Footer: React.FC = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyKey>('BTC');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const currentCurrency = CURRENCIES[selectedCurrency];
@@ -133,9 +135,18 @@ export const Footer: React.FC = () => {
         </div>
       </div>
       
-      <p className="text-white/70 text-sm">
-        &copy; {new Date().getFullYear()} Character to Name. All Rights Reserved.
-      </p>
+      <div className="flex flex-col items-center space-y-2">
+        <p className="text-white/70 text-sm">
+          &copy; {new Date().getFullYear()} Character to Name. All Rights Reserved.
+        </p>
+        <button 
+          onClick={() => setShowPrivacyPolicy(true)}
+          className="text-sm text-blue-400 hover:underline"
+        >
+          Privacy Policy
+        </button>
+        {showPrivacyPolicy && <PrivacyPolicy onClose={() => setShowPrivacyPolicy(false)} />}
+      </div>
     </footer>
   );
 };
