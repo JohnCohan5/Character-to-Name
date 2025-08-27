@@ -29,6 +29,22 @@ const App: React.FC = () => {
     updateNames(inputText);
   }, [inputText, updateNames]);
 
+  // Initialize Google AdSense ads when component mounts
+  useEffect(() => {
+    try {
+      // Check if adsbygoogle is defined and only initialize once
+      const adsbygoogle = (window as any).adsbygoogle;
+      if (adsbygoogle && document.querySelectorAll('ins.adsbygoogle').length > 0) {
+        // Push ad after component is mounted and only if not already initialized
+        setTimeout(() => {
+          adsbygoogle.push({});
+        }, 100); // Small delay to ensure DOM is fully rendered
+      }
+    } catch (error) {
+      console.error('Error initializing AdSense:', error);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#4A90E2] to-[#A3CEF1] text-[#1E2A38] p-4 sm:p-8 selection:bg-[#357ABD] selection:text-white">
 
@@ -45,6 +61,16 @@ const App: React.FC = () => {
             data={outputData}
             isProcessing={namesAreLoading}
           />
+        </div>
+
+        {/* Google AdSense Ad Unit */}
+        <div className="mt-8 w-full flex justify-center">
+          <ins className="adsbygoogle"
+               style={{ display: 'block', width: '300px', height: '250px' }}
+               data-ad-client="ca-pub-1105290192735497"
+               data-ad-slot="4567890123"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
         </div>
 
         <Footer />

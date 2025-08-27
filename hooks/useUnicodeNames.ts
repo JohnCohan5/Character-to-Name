@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { commonNames } from '../data/common-names';
 import { extendedNames } from '../data/extended-names';
+import { unicodeNames } from '../data/unicode-names';
 
 export interface CharacterName {
   char: string;
@@ -12,7 +13,12 @@ export interface CharacterName {
 const fetchExtendedNames = (): Promise<Record<string, string>> => {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(extendedNames);
+      // Merge all character maps, with unicode names taking precedence
+      const mergedNames = {
+        ...extendedNames,
+        ...unicodeNames
+      };
+      resolve(mergedNames);
     }, 500); // Simulate network delay
   });
 };
@@ -52,7 +58,19 @@ export const useUnicodeNames = () => {
       if (char === ' ') name = 'SPACE';
       else if (char === '\n') name = 'LINE FEED';
       else {
-        name = commonNames[char] || extendedNamesMap[char] || 'UNKNOWN CHARACTER';
+        // First try to get the name from our predefined maps
+        name = commonNames[char] || extendedNamesMap[char];
+        
+        // If not found in our maps, try to get the Unicode code point and create a generic name
+        if (!name) {
+          const codePoint = char.codePointAt(0);
+          if (codePoint) {
+            const hexCode = codePoint.toString(16).toUpperCase().padStart(4, '0');
+            name = `UNICODE CHARACTER U+${hexCode}`;
+          } else {
+            name = 'UNKNOWN CHARACTER';
+          }
+        }
       }
       return { char, name };
     });

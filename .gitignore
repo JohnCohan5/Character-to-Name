@@ -25,3 +25,6 @@ dist-ssr
 
 # Project specific
 terms.text
+
+# Google AdSense related files
+/public/robots.txt
