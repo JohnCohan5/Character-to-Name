@@ -31,17 +31,31 @@ const App: React.FC = () => {
 
   // Initialize Google AdSense ads when component mounts
   useEffect(() => {
-    try {
-      // Check if adsbygoogle is defined and only initialize once
-      const adsbygoogle = (window as any).adsbygoogle;
-      if (adsbygoogle && document.querySelectorAll('ins.adsbygoogle').length > 0) {
-        // Push ad after component is mounted and only if not already initialized
-        setTimeout(() => {
-          adsbygoogle.push({});
-        }, 100); // Small delay to ensure DOM is fully rendered
+    const adsbygoogle = (window as any).adsbygoogle;
+
+    const adSlot = document.querySelector('ins.adsbygoogle');
+
+    if (adsbygoogle && adSlot) {
+      const handleAdLoad = () => {
+        if (!adSlot.getAttribute('data-ad-loaded')) {
+          try {
+            adsbygoogle.push({});
+            adSlot.setAttribute('data-ad-loaded', 'true');
+          } catch (e) {
+            console.error('AdSense push error:', e);
+          }
+        }
+      };
+
+      if (document.readyState === 'complete') {
+        handleAdLoad();
+      } else {
+        window.addEventListener('load', handleAdLoad);
       }
-    } catch (error) {
-      console.error('Error initializing AdSense:', error);
+
+      return () => {
+        window.removeEventListener('load', handleAdLoad);
+      };
     }
   }, []);
 
