@@ -5,11 +5,17 @@ import { CharacterInput } from './components/CharacterInput';
 import { CharacterOutput } from './components/CharacterOutput';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { Donation } from './components/Donation';
 
 const App: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [outputData, setOutputData] = useState<CharacterName[]>([]);
+  const [showAbout, setShowAbout] = useState(false);
   const { convertTextToNames, isLoading: namesAreLoading } = useUnicodeNames();
+
+  const toggleAbout = () => {
+    setShowAbout(!showAbout);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
@@ -77,30 +83,42 @@ const App: React.FC = () => {
           />
         </div>
         
-        {/* Information section with embedded ad */}
+        <Donation />
+
         <div className="mt-12 w-full bg-white rounded-xl shadow-lg p-6 border border-[#357ABD]/30">
-          <h2 className="text-2xl font-bold text-[#1E2A38] mb-4">About Character to Name</h2>
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1">
-              <p className="text-gray-700 mb-4">This tool helps you identify Unicode characters by displaying their official names. It's useful for:</p>
-              <ul className="list-disc pl-5 mb-4 text-gray-700 space-y-2">
-                <li>Developers working with internationalization</li>
-                <li>Designers identifying special characters</li>
-                <li>Anyone curious about symbols they encounter online</li>
-              </ul>
-              <p className="text-gray-700">Simply type or paste any character into the input field above, and you'll instantly see its Unicode name.</p>
+          <button onClick={toggleAbout} className="w-full text-left flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold text-[#1E2A38] mb-2">About Character to Name</h2>
+              <p className="text-gray-700">This tool helps you identify....</p>
             </div>
-            
-            {/* Google AdSense Ad Unit - now embedded within content */}
-            <div className="md:w-[300px] flex justify-center">
-              <ins className="adsbygoogle"
-                   style={{ display: 'block', width: '300px', height: '250px' }}
-                   data-ad-client="ca-pub-1105290192735497"
-                   data-ad-slot="4567890123"
-                   data-ad-format="auto"
-                   data-full-width-responsive="true"></ins>
+            <svg className={`w-6 h-6 transition-transform transform ${showAbout ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+          </button>
+
+          {showAbout && (
+            <div className="mt-4">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="flex-1">
+                  <p className="text-gray-700 mb-4">This tool helps you identify Unicode characters by displaying their official names. It's useful for:</p>
+                  <ul className="list-disc pl-5 mb-4 text-gray-700 space-y-2">
+                    <li>Developers working with internationalization</li>
+                    <li>Designers identifying special characters</li>
+                    <li>Anyone curious about symbols they encounter online</li>
+                  </ul>
+                  <p className="text-gray-700">Simply type or paste any character into the input field above, and you'll instantly see its Unicode name.</p>
+                </div>
+                
+                {/* Google AdSense Ad Unit - now embedded within content */}
+                <div className="md:w-[300px] flex justify-center">
+                  <ins className="adsbygoogle"
+                       style={{ display: 'block', width: '300px', height: '250px' }}
+                       data-ad-client="ca-pub-1105290192735497"
+                       data-ad-slot="4567890123"
+                       data-ad-format="auto"
+                       data-full-width-responsive="true"></ins>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <Footer />
